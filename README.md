@@ -5,11 +5,11 @@ Código-base da prática de construção progressiva de um agente com LangChain,
 O repositório inclui:
 
 - `service.py`: minisserviço FastAPI com métricas e logs simulados;
-- `agent.py`: imports, configuração do modelo, URL do minisserviço e prompt de sistema;
+- `agent.py`: imports, configuração do modelo, URL, prompt e cliente HTTP do minisserviço;
 - `requirements.txt`: dependências da prática;
 - `.env.example`: exemplo das variáveis de ambiente.
 
-Durante a prática, a implementação do agente começa pelas ferramentas HTTP e avança por estado, nós, roteamento, montagem e persistência.
+Durante a prática, a implementação começa diretamente pelas ferramentas, pois o cliente HTTP já está pronto. Em seguida, avançamos por estado, nós, roteamento, montagem e persistência.
 
 ## Pré-requisitos
 

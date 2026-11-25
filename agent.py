@@ -36,4 +36,36 @@ Regras:
 """.strip()
 
 
+def consultar_minisservico(
+    caminho: str,
+    parametros: dict[str, str] | None = None,
+) -> str:
+    """Executa uma consulta HTTP no minisserviço e normaliza o resultado."""
+    try:
+        resposta = httpx.get(
+            f"{INCIDENT_SERVICE_URL}{caminho}",
+            params=parametros,
+            timeout=5.0,
+        )
+        resposta.raise_for_status()
+        return json.dumps(resposta.json(), ensure_ascii=False)
+    except httpx.HTTPStatusError as erro:
+        return json.dumps(
+            {
+                "erro": "resposta_invalida",
+                "status": erro.response.status_code,
+                "detalhe": erro.response.text,
+            },
+            ensure_ascii=False,
+        )
+    except httpx.RequestError as erro:
+        return json.dumps(
+            {
+                "erro": "minisservico_indisponivel",
+                "detalhe": str(erro),
+            },
+            ensure_ascii=False,
+        )
+
+
 # A implementação das ferramentas e do grafo começa aqui durante a prática.
