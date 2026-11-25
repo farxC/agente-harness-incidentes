@@ -9,7 +9,7 @@ O repositório inclui:
 - `requirements.txt`: dependências da prática;
 - `.env.example`: exemplo das variáveis de ambiente.
 
-Durante a prática, a implementação começa diretamente pelas ferramentas, pois o cliente HTTP já está pronto. Em seguida, avançamos por estado, nós, roteamento, montagem e persistência.
+Durante a prática, a implementação começa diretamente pelas ferramentas, pois o cliente HTTP já está pronto. Em seguida, avançamos por estado, nós, roteamento, montagem, persistência e visualização do fluxo de execução.
 
 ## Pré-requisitos
 
@@ -128,3 +128,11 @@ Depois de concluir a implementação, com o minisserviço ainda ativo, execute:
 ```bash
 python agent.py
 ```
+
+A saída final apresenta, nesta ordem:
+
+1. o diagrama ASCII do grafo;
+2. os nós, ferramentas e resultados percorridos durante a execução;
+3. o diagnóstico produzido pelo modelo.
+
+O pacote `grandalf`, instalado pelo `requirements.txt`, é utilizado pelo LangGraph para renderizar o diagrama no terminal.
