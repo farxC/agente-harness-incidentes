@@ -19,6 +19,8 @@ Durante a prática, a implementação começa diretamente pelas ferramentas, poi
 
 Crie sua chave no [Google AI Studio](https://aistudio.google.com/apikey).
 
+> Use um Python com GIL (build padrão). Builds free-threaded, como `3.14t`, falham ao instalar o `orjson`.
+
 ## 1. Clonar o repositório
 
 ```bash
@@ -79,11 +81,13 @@ O arquivo `.env` está no `.gitignore` e não deve ser enviado ao repositório.
 
 ## 6. Iniciar o minisserviço
 
-No primeiro terminal, com a `.venv` ativa, execute:
+No primeiro terminal, com a `.venv` ativa, execute o comando para subir o servidor FastAPI:
 
 ```bash
 uvicorn service:app --reload --port 8000
 ```
+
+O `--reload` reinicia o servidor automaticamente quando `service.py` muda. O serviço fica em <http://127.0.0.1:8000>.
 
 Verifique se o serviço está disponível:
 
