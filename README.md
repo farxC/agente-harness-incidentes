@@ -1,6 +1,6 @@
 # Agente de diagnóstico de incidentes
 
-Código-base da prática de construção progressiva de um agente com LangChain, LangGraph e Gemini.
+Código-base da prática de construção progressiva de um agente com LangChain, LangGraph e Groq.
 
 O repositório inclui:
 
@@ -15,9 +15,9 @@ Durante a prática, a implementação começa diretamente pelas ferramentas, poi
 
 - Python 3.11 ou superior;
 - Git;
-- uma chave de API do Google Gemini.
+- uma chave de API da Groq.
 
-Crie sua chave no [Google AI Studio](https://aistudio.google.com/apikey).
+Crie sua chave em [GroqCloud — API Keys](https://console.groq.com/keys).
 
 > Use um Python com GIL (build padrão). Builds free-threaded, como `3.14t`, falham ao instalar o `orjson`.
 
@@ -69,11 +69,11 @@ No Windows PowerShell:
 Copy-Item .env.example .env
 ```
 
-Abra o `.env` e substitua o valor de `GOOGLE_API_KEY`:
+Abra o `.env` e substitua o valor de `GROQ_API_KEY`:
 
 ```dotenv
-GOOGLE_API_KEY=sua-chave-aqui
-MODEL_ID=gemini-3.5-flash
+GROQ_API_KEY=gsk_sua-chave-aqui
+MODEL_ID=llama-3.3-70b-versatile
 INCIDENT_SERVICE_URL=http://127.0.0.1:8000
 ```
 

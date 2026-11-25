@@ -6,8 +6,14 @@ from urllib.parse import quote
 
 import httpx
 from dotenv import load_dotenv
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
+from langchain_groq import ChatGroq
+from langchain.messages import (
+    AIMessage,
+    AnyMessage,
+    HumanMessage,
+    SystemMessage,
+    ToolMessage,
+)
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
@@ -16,7 +22,7 @@ from typing_extensions import TypedDict
 
 load_dotenv()
 
-MODEL_ID = os.getenv("MODEL_ID", "gemini-3.5-flash")
+MODEL_ID = os.getenv("MODEL_ID", "llama-3.3-70b-versatile")
 INCIDENT_SERVICE_URL = os.getenv(
     "INCIDENT_SERVICE_URL",
     "http://127.0.0.1:8000",
