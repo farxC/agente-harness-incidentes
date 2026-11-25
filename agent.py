@@ -22,7 +22,7 @@ from typing_extensions import TypedDict
 
 load_dotenv()
 
-MODEL_ID = os.getenv("MODEL_ID", "llama-3.3-70b-versatile")
+MODEL_ID = os.getenv("MODEL_ID", "openai/gpt-oss-20b")
 INCIDENT_SERVICE_URL = os.getenv(
     "INCIDENT_SERVICE_URL",
     "http://127.0.0.1:8000",

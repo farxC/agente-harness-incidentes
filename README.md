@@ -73,7 +73,7 @@ Abra o `.env` e substitua o valor de `GROQ_API_KEY`:
 
 ```dotenv
 GROQ_API_KEY=gsk_sua-chave-aqui
-MODEL_ID=llama-3.3-70b-versatile
+MODEL_ID=openai/gpt-oss-20b
 INCIDENT_SERVICE_URL=http://127.0.0.1:8000
 ```
 
