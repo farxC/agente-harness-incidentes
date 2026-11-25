@@ -2,7 +2,14 @@
 
 Código-base da prática de construção progressiva de um agente com LangChain, LangGraph e Groq.
 
-O arquivo `agent.py` já contém os imports, as métricas simuladas, os logs simulados e o prompt de sistema. Durante a prática, a implementação começa pelas ferramentas e avança por estado, nós, roteamento, montagem e persistência.
+O repositório inclui:
+
+- `service.py`: minisserviço FastAPI com métricas e logs simulados;
+- `agent.py`: imports, configuração do modelo, URL do minisserviço e prompt de sistema;
+- `requirements.txt`: dependências da prática;
+- `.env.example`: exemplo das variáveis de ambiente.
+
+Durante a prática, a implementação do agente começa pelas ferramentas HTTP e avança por estado, nós, roteamento, montagem e persistência.
 
 ## Pré-requisitos
 
@@ -60,16 +67,51 @@ No Windows PowerShell:
 Copy-Item .env.example .env
 ```
 
-Abra o arquivo `.env` e substitua o valor de `GROQ_API_KEY` pela sua chave:
+Abra o `.env` e substitua o valor de `GROQ_API_KEY`:
 
 ```dotenv
 GROQ_API_KEY=gsk_sua-chave-aqui
 MODEL_ID=llama-3.3-70b-versatile
+INCIDENT_SERVICE_URL=http://127.0.0.1:8000
 ```
 
 O arquivo `.env` está no `.gitignore` e não deve ser enviado ao repositório.
 
-## 6. Começar a prática
+## 6. Iniciar o minisserviço
+
+No primeiro terminal, com a `.venv` ativa, execute:
+
+```bash
+uvicorn service:app --reload --port 8000
+```
+
+Verifique se o serviço está disponível:
+
+```bash
+curl http://127.0.0.1:8000/health
+curl http://127.0.0.1:8000/services/pagamentos/metrics
+curl "http://127.0.0.1:8000/services/pagamentos/logs?nivel=ERROR"
+```
+
+A documentação interativa estará disponível em <http://127.0.0.1:8000/docs>.
+
+Mantenha esse terminal aberto durante a execução do agente.
+
+## 7. Começar a prática
+
+Abra outro terminal, entre novamente no projeto e ative a `.venv`:
+
+```bash
+cd agente-harness-incidentes
+source .venv/bin/activate
+```
+
+No Windows PowerShell, use:
+
+```powershell
+cd agente-harness-incidentes
+.\.venv\Scripts\Activate.ps1
+```
 
 Abra `agent.py` e continue a implementação a partir do comentário:
 
@@ -77,7 +119,7 @@ Abra `agent.py` e continue a implementação a partir do comentário:
 # A implementação das ferramentas e do grafo começa aqui durante a prática.
 ```
 
-Depois de concluir a implementação, execute:
+Depois de concluir a implementação, com o minisserviço ainda ativo, execute:
 
 ```bash
 python agent.py

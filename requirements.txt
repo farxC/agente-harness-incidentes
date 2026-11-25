@@ -1,5 +1,8 @@
+fastapi
+httpx
 langchain
 langchain-groq
 langgraph
 python-dotenv
 typing-extensions
+uvicorn[standard]

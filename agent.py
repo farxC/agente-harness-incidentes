@@ -2,7 +2,9 @@ import json
 import operator
 import os
 from typing import Annotated, Literal
+from urllib.parse import quote
 
+import httpx
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain.messages import AnyMessage, HumanMessage, SystemMessage, ToolMessage
@@ -15,44 +17,10 @@ from typing_extensions import TypedDict
 load_dotenv()
 
 MODEL_ID = os.getenv("MODEL_ID", "llama-3.3-70b-versatile")
-
-METRICAS = {
-    "pagamentos": {
-        "latencia_p95_ms": 2_840,
-        "taxa_erros_percentual": 18.7,
-    },
-    "autenticacao": {
-        "latencia_p95_ms": 180,
-        "taxa_erros_percentual": 0.4,
-    },
-}
-
-LOGS = {
-    "pagamentos": [
-        {
-            "nivel": "ERROR",
-            "mensagem": "Timeout ao chamar o gateway bancário",
-            "ocorrencias": 37,
-        },
-        {
-            "nivel": "ERROR",
-            "mensagem": "Circuit breaker aberto para gateway bancário",
-            "ocorrencias": 12,
-        },
-        {
-            "nivel": "WARN",
-            "mensagem": "Pool de conexões acima de 90%",
-            "ocorrencias": 8,
-        },
-    ],
-    "autenticacao": [
-        {
-            "nivel": "WARN",
-            "mensagem": "Tentativa de login com token expirado",
-            "ocorrencias": 4,
-        }
-    ],
-}
+INCIDENT_SERVICE_URL = os.getenv(
+    "INCIDENT_SERVICE_URL",
+    "http://127.0.0.1:8000",
+).rstrip("/")
 
 SYSTEM_PROMPT = """
 Você é um agente de diagnóstico de incidentes.
@@ -63,7 +31,8 @@ Regras:
 - diferencie fatos observados de hipóteses;
 - não invente métricas, logs ou causas;
 - apresente evidências, hipótese principal e próxima ação recomendada;
-- se o serviço não existir, informe quais serviços podem ser consultados.
+- se o serviço não existir, informe os serviços disponíveis;
+- se o minisserviço estiver indisponível, explique como iniciá-lo.
 """.strip()
 
 
