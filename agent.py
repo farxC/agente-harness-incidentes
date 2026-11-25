@@ -7,17 +7,12 @@ from urllib.parse import quote
 import httpx
 from dotenv import load_dotenv
 from langchain_groq import ChatGroq
-from langchain.messages import (
-    AIMessage,
-    AnyMessage,
-    HumanMessage,
-    SystemMessage,
-    ToolMessage,
-)
+from langchain.messages import AnyMessage, SystemMessage, ToolMessage
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 from typing_extensions import TypedDict
+from visualizacao import exibir_grafo, perguntar
 
 
 load_dotenv()
@@ -74,4 +69,37 @@ def consultar_minisservico(
         )
 
 
-# A implementação das ferramentas e do grafo começa aqui durante a prática.
+@tool
+def consultar_metricas(servico: str) -> str:
+    """Consulta as métricas atuais de saúde de um serviço.
+
+    Args:
+        servico: Nome do serviço que deve ser consultado.
+    """
+    nome = quote(servico.strip().lower(), safe="")
+    return consultar_minisservico(f"/services/{nome}/metrics")
+
+
+@tool
+def consultar_logs(servico: str, nivel: str = "ERROR") -> str:
+    """Recupera os logs recentes de um serviço, filtrados por nível.
+
+    Args:
+        servico: Nome do serviço que deve ser consultado.
+        nivel: Nível do log, como ERROR ou WARN.
+    """
+    nome = quote(servico.strip().lower(), safe="")
+    return consultar_minisservico(
+        f"/services/{nome}/logs",
+        parametros={"nivel": nivel.strip().upper()},
+    )
+
+
+ferramentas = [consultar_metricas, consultar_logs]
+ferramentas_por_nome = {ferramenta.name: ferramenta for ferramenta in ferramentas}
+
+modelo = ChatGroq(model=MODEL_ID, temperature=0, max_retries=2)
+modelo_com_ferramentas = modelo.bind_tools(ferramentas)
+
+
+# A prática começa aqui: estado, nós, roteamento, grafo e persistência.

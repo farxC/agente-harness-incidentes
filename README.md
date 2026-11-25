@@ -5,11 +5,12 @@ Código-base da prática de construção progressiva de um agente com LangChain,
 O repositório inclui:
 
 - `service.py`: minisserviço FastAPI com métricas e logs simulados;
-- `agent.py`: imports, configuração do modelo, URL, prompt e cliente HTTP do minisserviço;
+- `agent.py`: configuração, cliente HTTP, ferramentas e modelo já preparados;
+- `visualizacao.py`: exibição pronta do grafo e do fluxo de execução;
 - `requirements.txt`: dependências da prática;
 - `.env.example`: exemplo das variáveis de ambiente.
 
-Durante a prática, a implementação começa diretamente pelas ferramentas, pois o cliente HTTP já está pronto. Em seguida, avançamos por estado, nós, roteamento, montagem, persistência e visualização do fluxo de execução.
+Durante a prática, as ferramentas e o modelo são revisados a partir do código pronto. A implementação começa pelo estado e avança por nós, roteamento, montagem e persistência. A visualização fica isolada para não consumir o tempo da aula.
 
 ## Pré-requisitos
 
@@ -120,7 +121,7 @@ cd agente-harness-incidentes
 Abra `agent.py` e continue a implementação a partir do comentário:
 
 ```python
-# A implementação das ferramentas e do grafo começa aqui durante a prática.
+# A prática começa aqui: estado, nós, roteamento, grafo e persistência.
 ```
 
 Depois de concluir a implementação, com o minisserviço ainda ativo, execute:
@@ -135,4 +136,4 @@ A saída final apresenta, nesta ordem:
 2. os nós, ferramentas e resultados percorridos durante a execução;
 3. o diagnóstico produzido pelo modelo.
 
-O pacote `grandalf`, instalado pelo `requirements.txt`, é utilizado pelo LangGraph para renderizar o diagrama no terminal.
+As funções prontas de `visualizacao.py` usam o *streaming* do LangGraph para mostrar o caminho executado. O pacote `grandalf`, instalado pelo `requirements.txt`, renderiza o diagrama no terminal.
