@@ -9,7 +9,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-SERVICOS = {
+SERVICOS_MONITORADOS = {
     "pagamentos": {
         "metricas": {
             "status": "degradado",
@@ -54,14 +54,14 @@ SERVICOS = {
 
 
 def obter_servico(nome: str) -> dict:
-    servico = SERVICOS.get(nome.lower())
+    servico = SERVICOS_MONITORADOS.get(nome.lower())
     if servico is None:
         raise HTTPException(
             status_code=404,
             detail={
                 "erro": "servico_nao_encontrado",
                 "servico": nome,
-                "servicos_disponiveis": sorted(SERVICOS),
+                "servicos_disponiveis": sorted(SERVICOS_MONITORADOS),
             },
         )
     return servico
@@ -72,7 +72,7 @@ def inicio() -> dict:
     return {
         "nome": "minisservico-de-incidentes",
         "documentacao": "/docs",
-        "servicos": sorted(SERVICOS),
+        "servicos": sorted(SERVICOS_MONITORADOS),
     }
 
 
@@ -86,7 +86,7 @@ def health() -> dict:
 
 @app.get("/services")
 def listar_servicos() -> dict:
-    return {"servicos": sorted(SERVICOS)}
+    return {"servicos": sorted(SERVICOS_MONITORADOS)}
 
 
 @app.get("/services/{nome}/metrics")
